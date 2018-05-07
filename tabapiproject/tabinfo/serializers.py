@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from .models import Tabinfo
+from django.contrib.auth.models import User
+
+
 
 class TabinfoSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -19,3 +22,12 @@ class TabinfoSerializer(serializers.HyperlinkedModelSerializer):
             instance.side_effects = validated_data.get('side_effects', instance.side_effects)
             instance.save()
             return instance
+
+
+class UserSerializer(serializers.ModelSerializer):
+    
+    tabinfos = serializers.PrimaryKeyRelatedField(many=True, queryset=Tabinfo.objects.all())
+
+    class Meta:
+        model = User
+        fields = ('id','username','tabinfos')

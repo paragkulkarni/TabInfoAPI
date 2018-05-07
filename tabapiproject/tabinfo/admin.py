@@ -3,7 +3,7 @@ from .models import Tabinfo
 # Register your models here.
 
 
-admin.site.register(Tabinfo)
+#admin.site.register(Tabinfo)
 
 
 
