@@ -6,9 +6,11 @@ from django.contrib.auth.models import User
 
 class TabinfoSerializer(serializers.HyperlinkedModelSerializer):
 
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         model = Tabinfo
-        fields = ('tab_name', 'ingredients', 'unit_mg', 'company', 'uses', 'side_effect',)
+        fields = ('tab_name', 'ingredients', 'unit_mg', 'company', 'uses', 'side_effect','owner')
 
         def create(self, validated_data):
             return Tabinfo.objects.create(**validated_data)
@@ -26,8 +28,8 @@ class TabinfoSerializer(serializers.HyperlinkedModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     
-    tabinfos = serializers.PrimaryKeyRelatedField(many=True, queryset=Tabinfo.objects.all())
+    tabinfo = serializers.PrimaryKeyRelatedField(many=True, queryset=Tabinfo.objects.all())
 
     class Meta:
         model = User
-        fields = ('id','username','tabinfos')
+        fields = ('id','username','tabinfo')
